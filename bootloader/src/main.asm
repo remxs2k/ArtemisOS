@@ -3,8 +3,11 @@ BITS 16
 
 main:
 
-    
+    mov ax, 0
+    mov ds, ax
+    mov es, ax 
 
+    
     HLT
 
 .halt:
