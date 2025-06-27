@@ -30,7 +30,7 @@ $(OUT2): $(SRC2)
 run: all
 	qemu-system-x86_64 -drive format=raw,file=$(IMG)
 
-run2: all2
+run-2: all2
 	qemu-system-x86_64 -drive format=raw,file=$(IMG2)
 clean:
 	del /f /q build\*.bin build\*.img
