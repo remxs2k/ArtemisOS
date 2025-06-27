@@ -1,3 +1,5 @@
+[org 0x7C00]
+
 mov ah, 0x0e
 
 ; attempt 1
