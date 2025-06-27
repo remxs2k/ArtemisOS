@@ -18,7 +18,7 @@ $(IMG): $(OUT)
 $(OUT): $(SRC)
 	$(ASM) $(SRC) -f bin -o $(OUT)
 
-all2: $(IMG2)
+all-2: $(IMG2)
 
 $(IMG2): $(OUT2)
 	copy /b $(OUT2) $(IMG2)
