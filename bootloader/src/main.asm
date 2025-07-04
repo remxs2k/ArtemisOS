@@ -1,18 +1,25 @@
-mov ah, 0x0e
-mov al, 'H'
-int 0x10
-mov al, 'e'
-int 0x10
-mov al, 'l'
-int 0x10
-int 0x10
-mov al, 'o'
-int 0x10
-mov al, '!'
-int 0x10
+[org 0x7c00]
+
+mov bx, HELLO
+call print
+
+call print_nl
+
+mov dx, 0x12fe
+call print_hex
 
 jmp $
 
+%include "boot_sect_print.asm"
+%include "boot_sect_print_hex.asm"
+
+
+HELLO:
+    db 'Hello, World', 0
+
+GOODBYE:
+    db 'Goodbye', 0
+
 times 510-($-$$) db 0    ; fills with 510 zeros minus the previous code
 
-dw 0xAA55 ; the 'magic' number
+dw 0xAA55 ; the 'magic' number :)
