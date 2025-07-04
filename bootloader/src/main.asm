@@ -10,8 +10,8 @@ call print_hex
 
 jmp $
 
-%include "boot_sect_print.asm"
-%include "boot_sect_print_hex.asm"
+%include "src/boot_sect_print.asm"
+%include "src/boot_sect_print_hex.asm"
 
 
 HELLO:
