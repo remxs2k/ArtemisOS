@@ -1,8 +1,8 @@
 ASM = nasm
 
-SRC  = src\\main.asm
-OUT  = build\\main.bin
-IMG  = build\\main_floppy.img
+SRC  = src\\boot.asm
+OUT  = build\\boot.bin
+IMG  = build\\boot_floppy.img
 
 SRC2 = src\\boot_sect_memory.asm
 OUT2 = build\\boot_sect_memory.bin

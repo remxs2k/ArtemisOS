@@ -11,13 +11,11 @@ start:
     ; Load GDT 
     lgdt [gdt_descriptor]
 
-    ;Set PE bit (Protected Mode) in CR0
+    ; Enter Protected Mode
     mov eax, cr0   ; CR0 is a special register that controls the CPU’s mode (real/protected/long mode).
     or eax, 1
     mov cr0, eax
-
-    ;Far Jump
-    jmp CODE_SEG:init_pm 
+    jmp CODE_SEG:init_pm    ; Far Jump
 
 
 ;Protected Mode entry point
@@ -25,7 +23,7 @@ start:
 [BITS 32]
 
 init_pm:
-    ;Set up Data Segment
+    ;Set up Segment registers
     mov ax, DATA_SEG
     mov ds, ax
     mov es, ax
@@ -36,23 +34,24 @@ init_pm:
 
     ;Write message to VGA text buffer
     mov esi, msg_pm
-    mov edi, 0xB8000    ; EDI is the destination index: points to VGA text buffer (0xB8000) where characters appear on screen.
+    mov edi 0x100000
+    mov ecx, 18
+    call load_kernel
 
-.print:
-    lodsb
-    test al, al
-    jz .done
-    mov [edi], al
-    inc edi
-    mov byte [edi], 0x1F ; White on Blue
-    inc edi
-    jmp .print
+    jmp 0x100000
 
-.done:
-    hlt
-    jmp $
+load_kernel:
+    pusha
+    mov ah, 0x02
+    mov ah, cl
+    mov ch, 0
+    mov dh, 0
+    mov cl, 2
+    mov bx, edi
+    int 0x13
+    popa
+    ret
 
-msg_pm db "Protected Mode Active!", 0
 
 gdt_start: 
 gdt_null: dq 0
@@ -62,14 +61,14 @@ gdt_code: dw 0xFFFF
     dw 0x0000
     db 0x00
     db 10011010b
-    db 11001111b 
+    db 11001111b   
     db 0x00
 
 gdt_data: dw 0xFFFF
     dw 0x0000
     db 0x00
     db 10010010b
-    db 11001111b
+    db 11001111b 
     db 0x00
 gdt_end:
 
