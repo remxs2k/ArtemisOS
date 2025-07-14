@@ -1,25 +1,27 @@
-[org 0x7c00]
+ORG 0x7C00 
 
-mov bx, HELLO
-call print
+start:
 
-call print_nl
+    mov si, message
 
-mov dx, 0x12fe
-call print_hex
+.print_loop:
 
-jmp $
+    lodsb
+    cmp al, 0
+    je done
+    mov ah, 0x0E
+    mov bh, 0x00
+    mov bl, 0x07
+    int 0x10
+    jmp .print_loop
 
-%include "src/boot_sect_print.asm"
-%include "src/boot_sect_print_hex.asm"
+done:
+
+    hlt
+    jmp $
+
+message db "Hello, ArtemisOS", 0
 
 
-HELLO:
-    db 'Hello, World', 0
-
-GOODBYE:
-    db 'Goodbye', 0
-
-times 510-($-$$) db 0    ; fills with 510 zeros minus the previous code
-
-dw 0xAA55 ; the 'magic' number :)
+times 510-($-$$) db 0
+dw 0xAA55
